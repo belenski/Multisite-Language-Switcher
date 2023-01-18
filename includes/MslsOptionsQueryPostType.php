@@ -18,10 +18,16 @@ class MslsOptionsQueryPostType extends MslsOptionsQuery {
 	 */
 	public function has_value( string $key ): bool {
 		if ( ! isset( $this->arr[ $key ] ) ) {
+<<<<<<< HEAD
 			$this->arr[ $key ] = get_post_type_object( $this->get_post_type() );
 		}
 
 		return boolval( $this->arr[ $key ] );
+=======
+			$this->arr[ $key ] = get_post_type_object( $this->get_arg( 0, '' ) );
+		}
+		return (bool) $this->arr[ $key ];
+>>>>>>> 1267d6b3 (MslsAdmin issues - found by code analyzer - resolved)
 	}
 
 	/**

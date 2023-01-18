@@ -18,6 +18,7 @@ class MslsOptionsQueryYear extends MslsOptionsQuery {
 	 */
 	public function has_value( string $key ): bool {
 		if ( ! isset( $this->arr[ $key ] ) ) {
+<<<<<<< HEAD
 			$args = [
 				'posts_per_page' => - 1,
 				'post_status'    => 'publish',
@@ -28,6 +29,19 @@ class MslsOptionsQueryYear extends MslsOptionsQuery {
 		}
 
 		return boolval( $this->arr[ $key ] );
+=======
+			$cache = MslsSqlCacher::init( __CLASS__ )->set_params( $this->args );
+
+			$this->arr[ $key ] = $cache->get_var(
+				$cache->prepare(
+					"SELECT count(ID) FROM {$cache->posts} WHERE YEAR(post_date) = %d AND post_status = 'publish'",
+					$this->get_arg( 0, 0 )
+				)
+			);
+		}
+
+		return (bool) $this->arr[ $key ];
+>>>>>>> 1267d6b3 (MslsAdmin issues - found by code analyzer - resolved)
 	}
 
 	/**
