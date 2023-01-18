@@ -17,8 +17,13 @@ class WP_Test_MslsOptionsTax extends Msls_UnitTestCase {
 		Functions\when( 'get_option' )->justReturn( [ 'de_DE' => 42 ] );
 	}
 
+<<<<<<< HEAD
 	public function test_get_tax_query(): void {
 		$obj = new MslsOptionsTax( 1 );
+=======
+	function test_get_tax_query() {
+		$obj = $this->get_test();
+>>>>>>> a8b81c46 (MslsOptionsTax refactored)
 
 		$this->assertEquals( '', $obj->get_tax_query() );
 	}
