@@ -19,11 +19,15 @@ class MslsOptionsQueryAuthor extends MslsOptionsQuery {
 	public function has_value( string $key ): bool {
 		if ( ! isset( $this->arr[ $key ] ) ) {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 8eb28d34 (MslsOptionsQuery objects refactored)
 			$args = [
 				'posts_per_page' => - 1,
 				'post_status'    => 'publish',
 				'author'         => $this->get_author_id(),
 			];
+<<<<<<< HEAD
 
 			$this->arr[ $key ] = ( new PostQuery( $args ) )->has_posts();
 =======
@@ -36,6 +40,10 @@ class MslsOptionsQueryAuthor extends MslsOptionsQuery {
 				)
 			);
 >>>>>>> 1267d6b3 (MslsAdmin issues - found by code analyzer - resolved)
+=======
+
+			$this->arr[ $key ] = ( new PostCounter( $args ) )->get();
+>>>>>>> 8eb28d34 (MslsOptionsQuery objects refactored)
 		}
 
 		return (bool) $this->arr[ $key ];

@@ -19,11 +19,15 @@ class MslsOptionsQueryYear extends MslsOptionsQuery {
 	public function has_value( string $key ): bool {
 		if ( ! isset( $this->arr[ $key ] ) ) {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 8eb28d34 (MslsOptionsQuery objects refactored)
 			$args = [
 				'posts_per_page' => - 1,
 				'post_status'    => 'publish',
 				'date_query'     => $this->get_date_query(),
 			];
+<<<<<<< HEAD
 
 			$this->arr[ $key ] = ( new PostQuery( $args ) )->has_posts();
 		}
@@ -31,17 +35,18 @@ class MslsOptionsQueryYear extends MslsOptionsQuery {
 		return boolval( $this->arr[ $key ] );
 =======
 			$cache = MslsSqlCacher::init( __CLASS__ )->set_params( $this->args );
+=======
+>>>>>>> 8eb28d34 (MslsOptionsQuery objects refactored)
 
-			$this->arr[ $key ] = $cache->get_var(
-				$cache->prepare(
-					"SELECT count(ID) FROM {$cache->posts} WHERE YEAR(post_date) = %d AND post_status = 'publish'",
-					$this->get_arg( 0, 0 )
-				)
-			);
+			$this->arr[ $key ] = ( new PostCounter( $args ) )->get();
 		}
 
+<<<<<<< HEAD
 		return (bool) $this->arr[ $key ];
 >>>>>>> 1267d6b3 (MslsAdmin issues - found by code analyzer - resolved)
+=======
+		return boolval( $this->arr[ $key ] );
+>>>>>>> 8eb28d34 (MslsOptionsQuery objects refactored)
 	}
 
 	/**
