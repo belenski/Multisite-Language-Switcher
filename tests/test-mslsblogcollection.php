@@ -47,7 +47,11 @@ class WP_Test_MslsBlogCollection extends Msls_UnitTestCase {
 	}
 
 	public function test_get_blog_id(): void {
+<<<<<<< HEAD
 		$this->assertEquals( 0, ( new MslsBlogCollection() )->get_blog_id( 'de_DE' ) );
+=======
+		$this->assertNull( ( new MslsBlogCollection() )->get_blog_id( 'de_DE' ) );
+>>>>>>> d01a17b1 (MslsBlogCollection partially tested)
 	}
 
 	public function test_get_current_blog_id(): void {
