@@ -93,7 +93,11 @@ class MslsWidget extends WP_Widget {
 	 *
 	 * @param array<string, mixed> $instance
 	 *
+<<<<<<< HEAD
 	 * @return string
+=======
+	 * @return void
+>>>>>>> 0190c8e6 (MslsWidget class fully tested)
 	 */
 	public function form( $instance ): string {
 		$title = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
