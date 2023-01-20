@@ -7,6 +7,10 @@
   "require": {
     "php": ">=7.1.0",
     "composer/installers": "~1.12.0",
+<<<<<<< HEAD
+=======
+    "antecedent/patchwork": "~2.1.19",
+>>>>>>> 06e630af (MslsMain class fully tested && error_log redirected stream during test)
     "ext-json": "*"
   },
   "require-dev": {
