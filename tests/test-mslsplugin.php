@@ -22,13 +22,21 @@ class WP_Test_MslsPlugin extends Msls_UnitTestCase {
 		return new MslsPlugin( $options );
 	}
 
+<<<<<<< HEAD
 	public function test_admin_menu() {
+=======
+	/**
+	 * Verify the static init-method
+	 */
+	function test_admin_menu(): void {
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 		Functions\when( 'wp_enqueue_style' )->returnArg();
 		Functions\when( 'plugins_url' )->justReturn( 'https://lloc.de/wp-content/plugins' );
 
 		$this->assertNull( $this->get_test()->admin_menu() );
 	}
 
+<<<<<<< HEAD
 	public function test_init_widget_true() {
 		Functions\expect( 'register_widget' )->once()->andReturn( true );
 
@@ -38,31 +46,68 @@ class WP_Test_MslsPlugin extends Msls_UnitTestCase {
 	public function test_block_render_output() {
 		$expected = 'Booh!';
 
+=======
+	/**
+	 * Verify the static init_widget-method
+	 */
+	function test_init_widget(): void {
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 		Functions\when( 'register_widget' )->justReturn( true );
 		Functions\when( 'the_widget' )->justEcho( $expected );
 
 		$this->assertEquals( $expected, $this->get_test()->block_render() );
 	}
 
+<<<<<<< HEAD
 	public function test_init_i18n_support() {
 		Functions\expect( 'load_plugin_textdomain' )->once();
+=======
+	/**
+	 * Verify the static init_i18n_support-method
+	 */
+	function test_init_i18n_support(): void {
+		Functions\when( 'load_plugin_textdomain' )->justReturn( true );
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 
 		$this->assertNull( $this->get_test()->init_i18n_support() );
 	}
 
+<<<<<<< HEAD
 	public function test_message_handler() {
+=======
+	/**
+	 * Verify the static message_handler-method
+	 */
+	function test_message_handler(): void {
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 		$this->expectOutputString( '<div id="msls-warning" class="error"><p>Test</p></div>' );
+
 		MslsPlugin::message_handler( 'Test' );
 	}
 
+<<<<<<< HEAD
 	public function test_uninstall() {
+=======
+	/**
+	 * Verify the static uninstall-method
+	 */
+	function test_uninstall(): void {
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 		Functions\when( 'delete_option' )->justReturn( false );
 
 		$this->assertFalse( $this->get_test()->uninstall() );
 	}
 
+<<<<<<< HEAD
 	public function test_cleanup_true() {
 		Functions\when( 'delete_option' )->justReturn( true );
+=======
+	/**
+	 * Verify the static cleanup-method
+	 */
+	function test_cleanup(): void {
+		Functions\when( 'delete_option' )->justReturn( false );
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 
 		$this->assertTrue( $this->get_test()->uninstall() );
 	}

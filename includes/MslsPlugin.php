@@ -77,7 +77,7 @@ class MslsPlugin {
 				add_action( 'load-edit-tags.php', [ MslsPostTag::class, 'init' ] );
 
 				if ( filter_has_var( INPUT_POST, 'action' ) ) {
-					$action = filter_input( INPUT_POST, 'action', FILTER_SANITIZE_STRING );
+					$action = filter_input( INPUT_POST, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 
 					if ( 'add-tag' === $action ) {
 						add_action( 'admin_init', [ MslsPostTag::class, 'init' ] );
@@ -121,6 +121,7 @@ class MslsPlugin {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * @param WP_Admin_Bar $wp_admin_bar
 	 *
 	 * @return int
@@ -129,8 +130,18 @@ class MslsPlugin {
 		$nodes_added = 0;
 
 		$blog_collection = MslsBlogCollection::instance();
+=======
+	 * @param $wp_admin_bar
+	 *
+	 * @return void
+	 */
+	public static function update_adminbar( \WP_Admin_Bar $wp_admin_bar ): void {
+		$icon_type = MslsOptions::instance()->get_icon_type();
+
+		$blog_collection = msls_blog_collection();
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 		foreach ( $blog_collection->get_plugin_active_blogs() as $blog ) {
-			$title = '<div class="blavatar"></div>' . $blog->get_title();
+			$title = $blog->get_blavatar() . $blog->get_title( $icon_type );
 
 			$wp_admin_bar->add_node( [ 'id' => 'blog-' . $blog->userblog_id, 'title' => $title ] );
 			$nodes_added++;
@@ -138,8 +149,12 @@ class MslsPlugin {
 
 		$blog = $blog_collection->get_current_blog();
 		if ( is_object( $blog ) && method_exists( $blog, 'get_title' ) ) {
+<<<<<<< HEAD
 			$wp_admin_bar->add_node( [ 'id' => 'site-name', 'title' => $blog->get_title() ] );
 			$nodes_added++;
+=======
+			$wp_admin_bar->add_node( [ 'id' => 'site-name', 'title' => $blog->get_title( $icon_type ) ] );
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 		}
 
 		return $nodes_added;
@@ -159,7 +174,11 @@ class MslsPlugin {
 	 *
 	 * @return string
 	 */
+<<<<<<< HEAD
 	function content_filter( string $content ): string {
+=======
+	public function content_filter( $content ) {
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 		if ( ! is_front_page() && is_singular() ) {
 			$options = $this->options;
 

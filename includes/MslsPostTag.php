@@ -17,7 +17,7 @@ class MslsPostTag extends MslsMain {
 	 */
 	public static function init(): HookInterface {
 		$options    = MslsOptions::instance();
-		$collection = MslsBlogCollection::instance();
+		$collection = msls_blog_collection();
 
 		if ( $options->activate_autocomplete	) {
 			$obj = new self( $options, $collection );
@@ -182,7 +182,40 @@ class MslsPostTag extends MslsMain {
 				$title
 			);
 
+<<<<<<< HEAD
 			restore_current_blog();
+=======
+				$language = $blog->get_language();
+				$icon     = MslsAdminIcon::create()
+								->set_language( $language );
+				if( $this->options->admin_display === 'label' ) {
+					$icon->set_icon_type( 'label' );
+				} else {
+					$icon->set_icon_type( 'flag' );
+				}
+
+				$value = $title = '';
+				if ( $my_data->has_value( $language ) ) {
+					$term = get_term( $my_data->$language, $type );
+					if ( is_object( $term ) ) {
+						$icon->set_href( $my_data->$language );
+						$value = $my_data->$language;
+						$title = $term->name;
+					}
+				}
+
+				printf(
+					$item_format,
+					$blog->userblog_id,
+					$icon,
+					$language,
+					$value,
+					$title
+				);
+				restore_current_blog();
+			}
+			return true;
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 		}
 
 		return true;

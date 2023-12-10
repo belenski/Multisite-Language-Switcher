@@ -23,8 +23,13 @@ class MslsCustomColumn extends MslsMain implements HookInterface {
 	 */
 	public static function init(): HookInterface {
 		$options    = MslsOptions::instance();
+<<<<<<< HEAD
 		$collection = MslsBlogCollection::instance();
 		$obj        = new self( $options, $collection );
+=======
+		$collection = msls_blog_collection();
+		$obj        = new static( $options, $collection );
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 
 		if ( ! $options->is_excluded() ) {
 			$post_type = MslsPostType::instance()->get_request();
@@ -50,23 +55,38 @@ class MslsCustomColumn extends MslsMain implements HookInterface {
 		$blogs = $this->collection->get();
 
 		if ( $blogs ) {
+<<<<<<< HEAD
 			$arr = [];
 
+=======
+			$html = '';
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 			foreach ( $blogs as $blog ) {
 				$language = $blog->get_language();
 
 				$icon = new MslsAdminIcon( null );
-				$icon->set_language( $language )->set_icon_type( 'flag' );
+				$icon->set_language( $language );
+				if( $this->options->admin_display === 'label' ) {
+					$icon->set_icon_type( 'label' );
+				} else {
+					$icon->set_icon_type( 'flag' );					
+				}
 
 				if ( $post_id = get_the_ID() ) {
 					$icon->set_id( $post_id );
 					$icon->set_origin_language( 'it_IT' );
 				}
 
-				$arr[] = $icon->get_icon();
+				$html .= '<span class="msls-icon-wrapper ' . esc_attr( $this->options->admin_display ) . '">';
+				$html .= $icon->get_icon();
+				$html .= '</span>';
 			}
+<<<<<<< HEAD
 
 			$columns['mslscol'] = implode( '&nbsp;', $arr );
+=======
+			$columns['mslscol'] = $html;
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 		}
 
 		return $columns;
@@ -102,7 +122,9 @@ class MslsCustomColumn extends MslsMain implements HookInterface {
 						$icon->set_href( $mydata->$language );
 					}
 	
-					echo $icon->get_a();
+					echo '<span class="msls-icon-wrapper ' . esc_attr( $this->options->admin_display ) . '">';
+					echo $icon->get_a(); 
+					echo '</span>';
 
 					restore_current_blog();
 				}

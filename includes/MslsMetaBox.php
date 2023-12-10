@@ -106,6 +106,30 @@ class MslsMetaBox extends MslsMain implements HookInterface {
 	}
 
 	/**
+<<<<<<< HEAD
+=======
+	 * Init
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return MslsMetaBox
+	 */
+	public static function init() {
+		$options    = MslsOptions::instance();
+		$collection = msls_blog_collection();
+		$obj        = new static( $options, $collection );
+
+		if ( ! $options->is_excluded() ) {
+			add_action( 'add_meta_boxes', [ $obj, 'add' ] );
+			add_action( 'save_post', [ $obj, 'set' ] );
+			add_action( 'trashed_post', [ $obj, 'delete' ] );
+		}
+
+		return $obj;
+	}
+
+	/**
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 	 * Add
 	 */
 	public function add(): void {
@@ -172,12 +196,11 @@ class MslsMetaBox extends MslsMain implements HookInterface {
 				switch_to_blog( $blog->userblog_id );
 
 				$language = $blog->get_language();
-				$icon     = MslsAdminIcon::create( $type )
-				                         ->set_language( $language )
-				                         ->set_icon_type( 'flag' );
+				$iconType = MslsAdminIcon::TYPE_FLAG === $this->options->admin_display ? MslsAdminIcon::TYPE_FLAG : MslsAdminIcon::TYPE_LABEL;
+				$icon     = MslsAdminIcon::create()->set_language( $language )->set_icon_type( $iconType );
 
 				if ( $mydata->has_value( $language ) ) {
-					$icon->set_href( $mydata->$language );
+          $icon->set_href( $mydata->$language );
 				}
 
 				$selects  = '';
@@ -213,10 +236,11 @@ class MslsMetaBox extends MslsMain implements HookInterface {
 				}
 
 				$lis .= sprintf(
-					'<li><label for="msls_input_%s">%s</label>%s</li>',
+					'<li><label for="msls_input_%s msls-icon-wrapper %4$s">%s</label>%s</li>',
 					$language,
 					$icon,
-					$selects
+					$selects,
+					esc_attr( $this->options->admin_display )
 				);
 
 				restore_current_blog();
@@ -294,8 +318,13 @@ class MslsMetaBox extends MslsMain implements HookInterface {
 
 				$language = $blog->get_language();
 				$icon     = MslsAdminIcon::create()
-					->set_language( $language )
-					->set_icon_type( 'flag' );
+					->set_language( $language );
+
+				if( $this->options->admin_display === 'label' ) {
+					$icon->set_icon_type( 'label' );
+				} else {
+					$icon->set_icon_type( 'flag' );
+				}
 
 				$value = $title = '';
 
@@ -306,8 +335,8 @@ class MslsMetaBox extends MslsMain implements HookInterface {
 				}
 
 				$items .= sprintf(
-					'<li>
-					<label for="msls_title_%1$s">%2$s</label>
+					'<li class="">
+					<label for="msls_title_%1$s msls-icon-wrapper %6$s">%2$s</label>
 					<input type="hidden" id="msls_id_%1$s" name="msls_input_%3$s" value="%4$s"/>
 					<input class="msls_title" id="msls_title_%1$s" name="msls_title_%1$s" type="text" value="%5$s"/>
 					</li>',
@@ -315,7 +344,8 @@ class MslsMetaBox extends MslsMain implements HookInterface {
 					$icon,
 					$language,
 					$value,
-					$title
+					$title,
+					esc_attr( $this->options->admin_display )
 				);
 
 				restore_current_blog();
@@ -348,8 +378,13 @@ class MslsMetaBox extends MslsMain implements HookInterface {
 			return;
 		}
 
+<<<<<<< HEAD
 		$post_type  = filter_input( INPUT_POST, 'post_type', FILTER_SANITIZE_STRING );
 		$capability = 'page' == $post_type ? 'edit_page' : 'edit_post';
+=======
+		$post_type  = filter_input( INPUT_POST, 'post_type', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		$capability = 'page' === $post_type ? 'edit_page' : 'edit_post';
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 
 		if ( current_user_can( $capability, $post_id ) ) {
 			$this->save( $post_id, MslsOptionsPost::class );

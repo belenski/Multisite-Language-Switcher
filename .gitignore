@@ -1,11 +1,15 @@
-.phpunit.result.cache
 composer.lock
 composer.phar
 package-lock.json
 phpunit.xml.bak
 .idea/
+<<<<<<< HEAD
 assets/
 docs/
+=======
+.phpunit.result.cache
+coverage/
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 node_modules/
 vendor/
 coverage/

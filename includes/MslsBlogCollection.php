@@ -7,10 +7,14 @@
 
 namespace lloc\Msls;
 
+<<<<<<< HEAD
 use lloc\Msls\Settings\ActiveSidewidePlugins;
 use lloc\Msls\Settings\BlogActivePlugins;
 use lloc\Msls\Settings\BlogLanguage;
 use lloc\Msls\Settings\BlogDescription;
+=======
+use const Patchwork\CodeManipulation\Actions\RedefinitionOfNew\publicizeConstructors;
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 
 /**
  * Collection of blog-objects
@@ -101,7 +105,7 @@ class MslsBlogCollection extends MslsRegistryInstance {
 	}
 
 	/**
-	 * Returns the description of an configured blog or false if it is not configured
+	 * Returns the description of a configured blog or false if it is not configured
 	 *
 	 * @param int $blog_id
 	 *
@@ -110,7 +114,20 @@ class MslsBlogCollection extends MslsRegistryInstance {
 	 * @return string|bool
 	 */
 	public static function get_configured_blog_description( $blog_id, $description = false ) {
+<<<<<<< HEAD
 		return false !== $description ? $description : ( new BlogDescription( $blog_id ) )->get();
+=======
+		if ( $description ) {
+			return $description;
+		}
+
+		$temp = get_blog_option( $blog_id, 'msls' );
+		if ( is_array( $temp ) && empty( $temp['exclude_current_blog'] ) ) {
+			return $temp['description'] ?? '';
+		}
+
+		return false;
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 	}
 
 	/**

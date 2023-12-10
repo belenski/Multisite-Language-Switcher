@@ -43,28 +43,29 @@ class MslsWidget extends WP_Widget {
 	 * @return void
 	 */
 	public function widget( $args, $instance ) {
-		$args = wp_parse_args(
-			$args,
-			[
-				'before_widget' => '',
-				'after_widget'  => '',
-				'before_title'  => '',
-				'after_title'   => '',
-			]
-		);
+		$default = [
+			'before_widget' => '',
+			'after_widget'  => '',
+			'before_title'  => '',
+			'after_title'   => '',
+		];
+
+		$args = wp_parse_args( $args, $default );
 
 		/** This filter is documented in wp-includes/default-widgets.php */
+<<<<<<< HEAD
 		$title = apply_filters('widget_title', $instance['title'] ?? '', $instance, $this->id_base );
+=======
+		$title = apply_filters( 'widget_title', $instance['title'] ?? '', $instance, $this->id_base );
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 		if ( $title ) {
 			$title = $args['before_title'] . esc_attr( $title ) . $args['after_title'];
 		}
 
 		$content = MslsOutput::init()->__toString();
-		if ( '' == $content ) {
-			$content = apply_filters(
-				'msls_widget_alternative_content',
-				__( 'No available translations found', 'multisite-language-switcher' )
-			);
+		if ( '' === $content ) {
+			$text    = __( 'No available translations found', 'multisite-language-switcher' );
+			$content = apply_filters( 'msls_widget_alternative_content', $text );
 		}
 
 		echo $args['before_widget'], $title, $content, $args['after_widget'];

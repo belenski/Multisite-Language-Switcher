@@ -8,65 +8,64 @@
 namespace lloc\Msls;
 
 use lloc\Msls\Component\Icon\IconSvg;
+use lloc\Msls\Component\Icon\IconLabel;
 
 /**
  * Handles the icon links in the backend
  * @package Msls
  */
 class MslsAdminIcon {
-	/**
-	 * IconType
-	 * @var string
-	 */
-	protected $iconType = 'action';
 
 	/**
-	 * Language
+	 * @var string
+	 */
+	protected $icon_type = 'action';
+
+	/**
 	 * @var string
 	 */
 	protected $language;
 
 	/**
-	 * Origin Language
 	 * @var string
 	 */
 	public $origin_language;
 
 	/**
-	 * Source
 	 * @var string
 	 */
 	protected $src;
 
 	/**
-	 * URL
 	 * @var string
 	 */
 	protected $href;
 
 	/**
-	 * Blog id
 	 * @var int
 	 */
 	protected $blog_id;
 
 	/**
-	 * Type
 	 * @var string
 	 */
 	protected $type;
 
 	/**
-	 * Path
 	 * @var string
 	 */
 	protected $path = 'post-new.php';
 
 	/**
 	 * The current object ID
+	 *
 	 * @var int
 	 */
 	protected $id;
+
+	const TYPE_FLAG  = 'flag';
+
+	const TYPE_LABEL = 'label';
 
 	/**
 	 * Constructor
@@ -88,32 +87,42 @@ class MslsAdminIcon {
 	/**
 	 * @codeCoverageIgnore
 	 *
+<<<<<<< HEAD
 	 * @param mixed $type
+=======
+	 * @param ?string $type
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 	 *
 	 * @return MslsAdminIcon|MslsAdminIconTaxonomy
 	 */
-	public static function create( $type = null ) {
+	public static function create( ?string $type = null ) {
 		$obj = MslsContentTypes::create();
 
 		if ( ! $type ) {
 			$type = $obj->get_request();
 		}
-		if ( $obj->is_taxonomy() ) {
-			return new MslsAdminIconTaxonomy( $type );
-		}
 
-		return new MslsAdminIcon( $type );
+		return $obj->is_taxonomy() ? new MslsAdminIconTaxonomy( $type ) : new MslsAdminIcon( $type );
 	}
 
 	/**
 	 * Set the icon path
 	 *
+<<<<<<< HEAD
 	 * @param string $iconType
 	 *
 	 * @return MslsAdminIcon
 	 */
 	public function set_icon_type( string $iconType ): MslsAdminIcon {
 		$this->iconType = $iconType;
+=======
+	 * @param $icon_type
+	 *
+	 * @return MslsAdminIcon
+	 */
+	public function set_icon_type( $icon_type ): MslsAdminIcon {
+		$this->icon_type = $icon_type;
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 
 		return $this;
 	}
@@ -229,18 +238,28 @@ class MslsAdminIcon {
 	 * @return string
 	 */
 	public function get_icon(): string {
-		if ( 'flag' === $this->iconType ) {
-			return ! is_string( $this->language ) ? '' : sprintf( '<span class="flag-icon %s">%s</span>',
-				( new IconSvg() )->get( $this->language ),
-				$this->language
-			);
+		if ( ! $this->language ) {
+			return '';
 		}
 
-		if ( empty( $this->href ) ) {
-			return '<span class="dashicons dashicons-plus"></span>';
+		switch ( $this->icon_type ) {
+			case MslsAdminIcon::TYPE_FLAG:
+				$icon = sprintf( '<span class="flag-icon %s">%s</span>',
+					( new IconSvg() )->get( $this->language ),
+					$this->language
+				);
+				break;
+			case MslsAdminIcon::TYPE_LABEL:
+				$icon = sprintf( '<span class="language-badge %s">%s</span>',
+					$this->language,
+					( new IconLabel() )->get( $this->language )
+				);
+				break;
+			default:
+				$icon = sprintf( '<span class="dashicons %s"></span>', empty( $this->href ) ? 'dashicons-plus' : 'dashicons-edit' );
 		}
 
-		return '<span class="dashicons dashicons-edit"></span>';
+		return $icon;
 	}
 
 	/**

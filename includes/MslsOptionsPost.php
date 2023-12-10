@@ -45,6 +45,16 @@ class MslsOptionsPost extends MslsOptions {
 			$this->with_front = ! empty( $post_object->rewrite['with_front'] );
 		}
 
+<<<<<<< HEAD
+=======
+		global $current_site;
+		$blog_id = msls_blog_collection()->get_blog_id( $language );
+		if ( $current_site->blog_id != $blog_id ) {
+			$option = get_blog_option( $blog_id, 'msls' );
+			//error_log( print_r( $option, true ) );
+		}
+
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 		return apply_filters( 'check_url', get_permalink( $post ), $this );
 	}
 

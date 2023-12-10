@@ -1,8 +1,29 @@
 ## 2.6.0
 
+<<<<<<< HEAD
 * Code quality improvements
 * Tests added
 * Bugfixing
+=======
+* WordPress 6.4 tested
+* Set PHP 7.4 as minimum requirement
+* Set WordPress 5.6 as minimum requirement
+* Blavatar fix 
+
+## 2.5.11
+
+* CodeSniffer installed for compatibility check with PHP 8.1
+* CSS/SVG Flags refreshed
+
+## 2.5.10
+
+* WordPress 6.3 tested
+* Compatibility issue with PHP 8.1 regarding FILTER_SANITIZE_STRING
+
+## 2.5.9
+
+* Compatibility issue with E_NOTICE and PHPUnit 10
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 
 ## 2.5.8
 

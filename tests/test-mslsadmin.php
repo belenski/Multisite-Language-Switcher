@@ -23,6 +23,7 @@ class WP_Test_MslsAdmin extends Msls_UnitTestCase {
 		$options = \Mockery::mock( MslsOptions::class );
 		$options->shouldReceive( 'is_empty' )->andReturns( false );
 		$options->shouldReceive( 'get_available_languages' )->andReturns( [ 'de_DE', 'it_IT' ] );
+		$options->shouldReceive( 'get_icon_type' )->andReturns( 'flag' );
 
 		$blog = \Mockery::mock( MslsBlog::class );
 		$blog->shouldReceive( 'get_title' )->andReturns( 'abc (DEF)' );
@@ -117,8 +118,15 @@ class WP_Test_MslsAdmin extends Msls_UnitTestCase {
 	function test_display() {
 		$obj = $this->get_sut();
 
-		$this->expectOutputRegex( '/^<select id="display" name="msls\[display\]">.*$/' );
+		$this->expectOutputString( '<select id="display" name="msls[display]"><option value="0" >Flag and description</option><option value="1" >Description only</option><option value="2" >Flag only</option><option value="3" >Description and flag</option></select>' );
 		$obj->display();
+	}
+
+	function test_admin_display() {
+		$obj = $this->get_sut();
+
+		$this->expectOutputString( '<select id="admin_display" name="msls[admin_display]"><option value="flag" >Flag</option><option value="label" >Label</option></select>' );
+		$obj->admin_display();
 	}
 
 	function test_reference_user() {
@@ -130,8 +138,17 @@ class WP_Test_MslsAdmin extends Msls_UnitTestCase {
 
 		$obj  = $this->get_sut( $users );
 
-		$this->expectNotice();
-		$this->expectNoticeMessage( 'Multisite Language Switcher: Collection for reference user has been truncated because it exceeded the maximum of 100 users. Please, use the hook "msls_reference_users" to filter the result before!' );
+		set_error_handler(
+			static function ( $errno, $errstr ) {
+				restore_error_handler();
+				throw new \Exception( $errstr, $errno );
+			},
+			E_ALL
+		);
+
+		$this->expectException( \Exception::class );
+		$this->expectExceptionMessage( 'Multisite Language Switcher: Collection for reference user has been truncated because it exceeded the maximum of 100 users. Please, use the hook "msls_reference_users" to filter the result before!' );
+
 		$obj->reference_user();
 	}
 
@@ -302,7 +319,7 @@ class WP_Test_MslsAdmin extends Msls_UnitTestCase {
 
 		Functions\when( 'add_settings_field' )->returnArg();
 
-		$this->assertEquals( 11, $obj->main_section() );
+		$this->assertEquals( 12, $obj->main_section() );
 	}
 
 	function test_advanced_section() {

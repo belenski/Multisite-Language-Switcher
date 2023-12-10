@@ -4,6 +4,7 @@ namespace lloc\MslsTests;
 
 use Brain\Monkey\Functions;
 
+use lloc\Msls\MslsBlogCollection;
 use lloc\Msls\MslsWidget;
 
 class WP_Test_MslsWidget extends Msls_UnitTestCase {
@@ -38,6 +39,7 @@ class WP_Test_MslsWidget extends Msls_UnitTestCase {
 		return $widget;
 	}
 
+<<<<<<< HEAD
 	function test_widget(): void {
 		$expected = '<div><h3>Test</h3>No available translations found</div>';
 
@@ -47,6 +49,11 @@ class WP_Test_MslsWidget extends Msls_UnitTestCase {
 	}
 
 =======
+=======
+	function test_widget() {
+		$collection = \Mockery::mock( MslsBlogCollection::class );
+		$collection->shouldReceive( 'get_filtered' )->once()->andReturn( [] );
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 
 		$arr = [
 			'before_widget' => '<div>',
@@ -55,6 +62,7 @@ class WP_Test_MslsWidget extends Msls_UnitTestCase {
 			'after_title'   => '</h3>',
 		];
 
+<<<<<<< HEAD
 		Functions\stubs( [
 			'wp_parse_args'       => $arr,
 			'get_option'          => [],
@@ -85,6 +93,20 @@ class WP_Test_MslsWidget extends Msls_UnitTestCase {
 >>>>>>> 0190c8e6 (MslsWidget class fully tested)
 	function test_update_empty_empty(): void {
 		$result = $this->get_sut()->update( [], [] );
+=======
+		Functions\expect( 'wp_parse_args' )->once()->andReturn( $arr );
+		Functions\expect( 'get_option' )->andReturn( [] );
+		Functions\expect( 'msls_blog_collection' )->once()->andReturn( $collection );
+
+		$obj = $this->get_sut();
+
+		$this->expectOutputString( '<div><h3>Test</h3>No available translations found</div>' );
+		$obj->widget( [], [ 'title' => 'Test' ] );
+	}
+
+	function test_update() {
+		$obj = $this->get_sut();
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 
 		$this->assertEquals( [], $result );
 	}

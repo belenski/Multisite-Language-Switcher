@@ -24,8 +24,13 @@ class MslsCustomColumnTaxonomy extends MslsCustomColumn implements HookInterface
 	 */
 	public static function init(): HookInterface {
 		$options    = MslsOptions::instance();
+<<<<<<< HEAD
 		$collection = MslsBlogCollection::instance();
 		$obj        = new self( $options, $collection );
+=======
+		$collection = msls_blog_collection();
+		$obj        = new static( $options, $collection );
+>>>>>>> 1e85669dfd420a0d77cd57272e937aeb8810393c
 
 		if ( ! $options->is_excluded() ) {
 			$taxonomy = MslsTaxonomy::instance()->get_request();
